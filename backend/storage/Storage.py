@@ -10,7 +10,7 @@ class Storage:
     __button_Pin_led = {0: (0x22, 0), 1: (0x22, 1), 2: (0x22, 2), 3: (0x22, 3),
                         4: (0x22, 4), 5: (0x22, 5), 6: (0x22, 6), 7: (0x22, 7)}
 
-    __led_bottle = {0: (0x23, 0), 1: (0x23, 1), 2: (0x23, 2), 3: (0x23, 3),
+    __bottle_led = {0: (0x23, 0), 1: (0x23, 1), 2: (0x23, 2), 3: (0x23, 3),
                     4: (0x23, 4), 5: (0x22, 3), 6: (0x23, 6), 7: (0x23, 7)}
     """ Пины для взимодействия с сигналом кнопок """
     __button_Pin = {0: (0x20, 0), 1: (0x20, 1), 2: (0x20, 2), 3: (0x20, 3),
@@ -145,15 +145,21 @@ class Storage:
 
     def led_pin(self, number_of_button: int):
         """
-        ID нужного нам пина подстветки по номеру кнопки (по раскладке BOARD)
+        ID нужного нам пина подстветки по номеру кнопки на шине I2C
         """
         return self.__button_Pin_led.get(number_of_button)
 
     def button_pin(self, number_of_button: int):
         """
-        ID пина по номеру кнопки
+        ID нужного нам пина кнопки по номеру кнопки на шине I2C
         """
         return self.__button_Pin.get(number_of_button)
+
+    def bottle_led(self, number_of_button: int):
+        """
+        ID нужного нам пина подсветки бутылки по номеру кнопки на шине I2C
+        """
+        return self.__bottle_led.get(number_of_button)
 
     @property
     def button_for_replacement(self):

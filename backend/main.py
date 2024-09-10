@@ -81,6 +81,7 @@ async def portion(request: Request):
     data = await request.json()
     print(data.keys())
     slot_num, portion_type, rfid_code = data["slot_number"], data["portion_type"], data["rfid"]
+    bottle_led_on(slot_num) # расположение пока не важно
     ButtonReader(slot_num)
     DrinkDispenser(slot_num, portions_time[portion_type])
     response = use_terminal_portion(portion_type, rfid_code, slot_num)
@@ -109,6 +110,12 @@ def open_browser():
 def start_server():
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
+def bottle_led_on(slot_number: int):
+    storage = Storage()
+    bottle_led_adress, bottle_led_pin = storage.bottle_led(slot_number)
+    bottle_led = LedPin(bottle_led_adress, bottle_led_pin)
+    bottle_led.pin.set_mode(PinMode.OUTPUT)
+    bottle_led.write(0xFF)
 
 if __name__ == '__main__':
 
